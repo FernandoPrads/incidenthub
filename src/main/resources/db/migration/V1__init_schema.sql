@@ -33,3 +33,24 @@ CREATE TABLE midia_incidente (
     hash_arquivo VARCHAR(255),
     CONSTRAINT fk_incidente FOREIGN KEY (id_incidente) REFERENCES registro_incidente(id_incidente)
 );
+
+CREATE TABLE endereco (
+    id_endereco BIGSERIAL PRIMARY KEY,
+    logradouro VARCHAR(255),
+    bairro VARCHAR(255),
+    cep VARCHAR(20),
+    cidade VARCHAR(100),
+    estado VARCHAR(50)
+);
+
+CREATE TABLE ocorrencia (
+    id_ocorrencia BIGSERIAL PRIMARY KEY,
+    id_pessoa BIGINT,
+    id_endereco BIGINT,
+    data_ocorrencia TIMESTAMP,
+    status VARCHAR(20),
+    url_imagem VARCHAR(500),
+
+    CONSTRAINT fk_pessoa FOREIGN KEY (id_pessoa) REFERENCES pessoa(id_pessoa),
+    CONSTRAINT fk_endereco FOREIGN KEY (id_endereco) REFERENCES endereco(id_endereco)
+);
