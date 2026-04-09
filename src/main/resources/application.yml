@@ -21,3 +21,11 @@ minio:
   access-key: ${MINIO_ACCESS_KEY:admin}
   secret-key: ${MINIO_SECRET_KEY:admin123}
   bucket: ocorrencias
+
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret-key: minha-chave-super-secreta-123456789
+
