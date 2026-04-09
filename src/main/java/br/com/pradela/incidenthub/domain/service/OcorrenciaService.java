@@ -3,6 +3,10 @@ package br.com.pradela.incidenthub.domain.service;
 import br.com.pradela.incidenthub.domain.model.*;
 import br.com.pradela.incidenthub.domain.repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import static br.com.pradela.incidenthub.domain.specification.OcorrenciaSpecification.filtro;
+
 
 import java.time.LocalDateTime;
 
@@ -55,6 +59,29 @@ public class OcorrenciaService {
         ocorrencia.setDataOcorrencia(LocalDateTime.now());
         ocorrencia.setStatus("ATIVA");
         ocorrencia.setUrlImagem(urlImagem);
+
+        return ocorrenciaRepository.save(ocorrencia);
+    }
+    
+    public Page<Ocorrencia> listar(
+            String nome,
+            String cpf,
+            String cidade,
+            Pageable pageable
+    ) {
+        return ocorrenciaRepository.findAll(filtro(nome, cpf, cidade), pageable);
+    }
+    
+    public Ocorrencia finalizar(Long id) {
+
+        Ocorrencia ocorrencia = ocorrenciaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ocorrência não encontrada"));
+
+        if ("FINALIZADA".equals(ocorrencia.getStatus())) {
+            throw new RuntimeException("Ocorrência já está finalizada");
+        }
+
+        ocorrencia.setStatus("FINALIZADA");
 
         return ocorrenciaRepository.save(ocorrencia);
     }

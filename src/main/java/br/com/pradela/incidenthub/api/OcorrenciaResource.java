@@ -5,6 +5,8 @@ import br.com.pradela.incidenthub.domain.service.OcorrenciaService;
 import br.com.pradela.incidenthub.domain.service.StorageService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/ocorrencias")
@@ -43,5 +45,20 @@ public class OcorrenciaResource {
                 estado,
                 urlImagem
         );
+    }
+    
+    @GetMapping
+    public Page<Ocorrencia> listar(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) String cpf,
+            @RequestParam(required = false) String cidade,
+            Pageable pageable
+    ) {
+        return ocorrenciaService.listar(nome, cpf, cidade, pageable);
+    }
+    
+    @PutMapping("/{id}/finalizar")
+    public Ocorrencia finalizar(@PathVariable Long id) {
+        return ocorrenciaService.finalizar(id);
     }
 }

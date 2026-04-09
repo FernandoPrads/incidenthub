@@ -75,4 +75,7 @@ public class Ocorrencia {
     public void setUrlImagem(String urlImagem) {
         this.urlImagem = urlImagem;
     }
+    
+    public static final String STATUS_ATIVA = "ATIVA";
+    public static final String STATUS_FINALIZADA = "FINALIZADA";
 }
